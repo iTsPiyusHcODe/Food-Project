@@ -1,0 +1,202 @@
+{% extends 'base/base.html' %}
+
+{% block title %}About Us - Foodie App{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-bold mb-4">About Foodie App</h1>
+            <p class="lead mb-4">Connecting food lovers with amazing recipes and delivery options since 2023.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'recipe-list' %}" class="btn btn-primary">Browse Recipes</a>
+                <a href="{% url 'base:contact' %}" class="btn btn-outline-primary">Contact Us</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Our Story Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <img src="/static/images/hero-food.jpg" alt="Our Story" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-4">Our Story</h2>
+            <p class="mb-4">Foodie App was founded with a simple mission: to make delicious food accessible to everyone. Our journey began when a group of food enthusiasts realized that finding great recipes and ordering quality food should be easier.</p>
+            <p>We started as a small team with big dreams, and today we're proud to serve thousands of customers with our extensive recipe collection and reliable food delivery service. Our platform connects passionate home cooks with food lovers, creating a community centered around the joy of cooking and eating.</p>
+        </div>
+    </div>
+    
+    <!-- Our Mission Section -->
+    <div class="row align-items-center mb-5 flex-lg-row-reverse">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <img src="/static/images/mobile-app.png" alt="Our Mission" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-4">Our Mission</h2>
+            <p class="mb-4">At Foodie App, we believe that good food brings people together. Our mission is to inspire cooking at home while providing convenient delivery options for those busy days.</p>
+            <p>We strive to:</p>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item bg-transparent border-0 ps-0"><i class="fas fa-check-circle text-primary me-2"></i> Provide high-quality recipes that anyone can follow</li>
+                <li class="list-group-item bg-transparent border-0 ps-0"><i class="fas fa-check-circle text-primary me-2"></i> Connect users with local chefs and restaurants</li>
+                <li class="list-group-item bg-transparent border-0 ps-0"><i class="fas fa-check-circle text-primary me-2"></i> Promote healthy eating and diverse cuisines</li>
+                <li class="list-group-item bg-transparent border-0 ps-0"><i class="fas fa-check-circle text-primary me-2"></i> Create a community of food enthusiasts</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Team Section -->
+    <div class="py-5">
+        <h2 class="fw-bold mb-5 text-center">Meet Our Team</h2>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 120px; height: 120px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">John Doe</h5>
+                        <p class="text-muted">Founder & CEO</p>
+                        <p class="card-text">Food enthusiast with over 10 years of experience in the culinary world.</p>
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 120px; height: 120px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Jane Smith</h5>
+                        <p class="text-muted">Head Chef</p>
+                        <p class="card-text">Professional chef with expertise in international cuisines and recipe development.</p>
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 120px; height: 120px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Mike Johnson</h5>
+                        <p class="text-muted">CTO</p>
+                        <p class="card-text">Tech expert focused on creating seamless user experiences for food lovers.</p>
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 120px; height: 120px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Sarah Williams</h5>
+                        <p class="text-muted">Operations Manager</p>
+                        <p class="card-text">Logistics expert ensuring your food arrives fresh and on time, every time.</p>
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Testimonials Section -->
+    <div class="py-5 bg-light mt-5 rounded">
+        <div class="container">
+            <h2 class="fw-bold mb-5 text-center">What Our Users Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                {% for i in "12345"|make_list %}
+                                <i class="fas fa-star text-warning"></i>
+                                {% endfor %}
+                            </div>
+                            <p class="card-text mb-4">"Foodie App has completely changed how I cook at home. The recipes are easy to follow and the ingredients are always fresh. I love being able to order my favorite dishes for delivery too!"</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary bg-opacity-25 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Robert Johnson</h6>
+                                    <small class="text-muted">Home Cook</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                {% for i in "1234"|make_list %}
+                                <i class="fas fa-star text-warning"></i>
+                                {% endfor %}
+                                <i class="far fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text mb-4">"As a busy professional, I don't always have time to cook. Foodie App lets me order quality meals when I'm busy and provides inspiration when I have time to cook. It's the perfect balance!"</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary bg-opacity-25 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Emily Davis</h6>
+                                    <small class="text-muted">Marketing Executive</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                {% for i in "12345"|make_list %}
+                                <i class="fas fa-star text-warning"></i>
+                                {% endfor %}
+                            </div>
+                            <p class="card-text mb-4">"I've discovered so many new cuisines through Foodie App. The community features let me connect with other food lovers and share our cooking experiences. It's more than just a recipe app!"</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary bg-opacity-25 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Carlos Rodriguez</h6>
+                                    <small class="text-muted">Food Blogger</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="text-center py-5">
+        <h2 class="fw-bold mb-4">Ready to join our food community?</h2>
+        <p class="lead mb-4">Sign up today and start exploring amazing recipes or order your first meal!</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Sign Up Now</a>
+            <a href="{% url 'recipe-list' %}" class="btn btn-outline-primary btn-lg">Browse Recipes</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

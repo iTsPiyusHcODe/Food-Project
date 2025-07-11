@@ -1,0 +1,285 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ recipe.title }} - Foodie App{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'recipe-list' %}">Recipes</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'category-detail' recipe.category.slug %}">{{ recipe.category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ recipe.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <!-- Recipe Image and Basic Info -->
+        <div class="col-lg-6 mb-4">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid rounded shadow-sm mb-3">
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-primary me-2">{{ recipe.category.name }}</span>
+                    {% if recipe.available_for_order %}
+                    <span class="badge bg-success">Available for Order</span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-star text-warning me-1"></i>
+                    <span class="me-3">{{ recipe.average_rating|default:"No ratings yet" }}</span>
+                    <i class="fas fa-clock text-secondary me-1"></i>
+                    <span>{{ recipe.cooking_time }} mins</span>
+                </div>
+            </div>
+            
+            {% if recipe.available_for_order %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Order this dish</h5>
+                        <span class="text-success fw-bold fs-4">${{ recipe.price }}</span>
+                    </div>
+                    <p class="text-muted small mb-3">Get this delicious dish delivered to your doorstep!</p>
+                    
+                    <form method="post" action="{% url 'add-to-cart' recipe.id %}" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <div class="input-group me-3">
+                            <span class="input-group-text">Qty</span>
+                            <input type="number" name="quantity" value="1" min="1" max="10" class="form-control" style="width: 70px;">
+                        </div>
+                        <button type="submit" class="btn btn-primary flex-grow-1">
+                            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Author Info -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">About the Chef</h5>
+                    <div class="d-flex align-items-center">
+                        <img src="{{ recipe.author.profile.image.url }}" alt="{{ recipe.author.username }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                        <div>
+                            <h6 class="mb-0">{{ recipe.author.get_full_name|default:recipe.author.username }}</h6>
+                            <p class="text-muted small mb-0">{{ recipe.author.profile.bio|truncatechars:100 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recipe Details -->
+        <div class="col-lg-6">
+            <h1 class="mb-3">{{ recipe.title }}</h1>
+            <p class="lead mb-4">{{ recipe.description }}</p>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Ingredients</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for ingredient in recipe.ingredients.all %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ ingredient.name }}
+                                    <span class="text-muted">{{ ingredient.quantity }} {{ ingredient.unit }}</span>
+                                </li>
+                                {% empty %}
+                                <li class="list-group-item">No ingredients listed</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Nutrition Facts</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Calories
+                                    <span>{{ recipe.calories }} kcal</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Protein
+                                    <span>{{ recipe.protein }} g</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Carbs
+                                    <span>{{ recipe.carbs }} g</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Fat
+                                    <span>{{ recipe.fat }} g</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Instructions</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="list-group list-group-numbered">
+                        {% for step in recipe.instructions.all %}
+                        <li class="list-group-item">{{ step.text }}</li>
+                        {% empty %}
+                        <li class="list-group-item">No instructions provided</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Reviews Section -->
+            <div class="card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Reviews</h5>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                        <i class="fas fa-star me-1"></i> Write a Review
+                    </button>
+                </div>
+                <div class="card-body">
+                    {% for review in recipe.reviews.all %}
+                    <div class="mb-3 pb-3 {% if not forloop.last %}border-bottom{% endif %}">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                <span class="fw-bold">{{ review.user.get_full_name|default:review.user.username }}</span>
+                            </div>
+                            <div>
+                                {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= review.rating %}
+                                <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                                {% endfor %}
+                                <small class="text-muted ms-2">{{ review.created_at|date:"M d, Y" }}</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">{{ review.comment }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-center text-muted my-3">No reviews yet. Be the first to review!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Recipes -->
+    <div class="mt-5">
+        <h3 class="mb-4">You might also like</h3>
+        <div class="row g-4">
+            {% for related in related_recipes %}
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text">{{ related.description|truncatechars:80 }}</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a href="{% url 'recipe-detail' related.slug %}" class="btn btn-sm btn-outline-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'add-review' recipe.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <div class="rating-stars">
+                            <div class="d-flex">
+                                {% for i in "12345"|make_list %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input visually-hidden" type="radio" name="rating" id="rating{{ i }}" value="{{ i }}" {% if forloop.counter == 5 %}checked{% endif %}>
+                                    <label class="form-check-label rating-star" for="rating{{ i }}">
+                                        <i class="far fa-star"></i>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Your Review</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Star rating functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const ratingStars = document.querySelectorAll('.rating-star');
+        
+        ratingStars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const input = this.previousElementSibling;
+                const value = parseInt(input.value);
+                
+                // Reset all stars
+                ratingStars.forEach(s => {
+                    s.querySelector('i').className = 'far fa-star';
+                });
+                
+                // Fill stars up to the current one
+                ratingStars.forEach((s, index) => {
+                    if (index < value) {
+                        s.querySelector('i').className = 'fas fa-star text-warning';
+                    }
+                });
+            });
+            
+            star.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                input.checked = true;
+                
+                // Reset all stars
+                ratingStars.forEach(s => {
+                    s.querySelector('i').className = 'far fa-star';
+                });
+                
+                // Fill stars up to the selected one
+                const value = parseInt(input.value);
+                ratingStars.forEach((s, index) => {
+                    if (index < value) {
+                        s.querySelector('i').className = 'fas fa-star text-warning';
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %} 

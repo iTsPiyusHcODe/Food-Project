@@ -1,0 +1,192 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Foodie App - Discover & Order Delicious Recipes{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <img src="/static/images/hero-food.jpg" alt="Delicious Food" class="img-fluid w-100" style="max-height: 500px; object-fit: cover;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background-color: rgba(0,0,0,0.4);">
+        <div class="container text-white">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1 class="display-4 fw-bold mb-3">Discover & Order Amazing Food</h1>
+                    <p class="lead mb-4">Find recipes from around the world and get them delivered to your doorstep.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'recipe-list' %}" class="btn btn-primary btn-lg">Browse Recipes</a>
+                        <a href="{% url 'base:about' %}" class="btn btn-outline-light btn-lg">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Why Choose Foodie App?</h2>
+            <p class="lead text-muted">The ultimate food experience platform</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-utensils fa-2x p-3"></i>
+                        </div>
+                        <h5 class="card-title">Discover Recipes</h5>
+                        <p class="card-text">Explore thousands of recipes from around the world, with detailed instructions and nutritional information.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-truck fa-2x p-3"></i>
+                        </div>
+                        <h5 class="card-title">Order & Delivery</h5>
+                        <p class="card-text">Order your favorite dishes and get them delivered fresh to your doorstep within 30 minutes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-mobile-alt fa-2x p-3"></i>
+                        </div>
+                        <h5 class="card-title">Mobile App</h5>
+                        <p class="card-text">Download our mobile app for iOS and Android to order food and discover recipes on the go.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Recipes Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Popular Recipes</h2>
+            <a href="{% url 'recipe-list' %}" class="btn btn-outline-primary">View All</a>
+        </div>
+        
+        <div class="row g-4">
+            {% for recipe in popular_recipes %}
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm recipe-card">
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">{{ recipe.category.name }}</span>
+                            <small class="text-muted">{{ recipe.cooking_time }} mins</small>
+                        </div>
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.description|truncatechars:80 }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center bg-white">
+                        <a href="{% url 'recipe-detail' recipe.slug %}" class="btn btn-sm btn-outline-primary">View Recipe</a>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <small>{{ recipe.average_rating|default:"0" }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p>No recipes available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Browse by Category</h2>
+        
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-md-2 col-sm-4 col-6">
+                <a href="{% url 'category-detail' category.slug %}" class="text-decoration-none">
+                    <div class="card category-card text-center h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="category-icon mb-3">
+                                <i class="fas {{ category.icon|default:'fa-utensils' }} fa-2x"></i>
+                            </div>
+                            <h6 class="card-title mb-0">{{ category.name }}</h6>
+                            <small class="text-muted">{{ category.recipe_count }} recipes</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p>No categories available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Mobile App Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Download Our Mobile App</h2>
+                <p class="lead mb-4">Get the full Foodie experience on your mobile device. Order food, discover recipes, and more!</p>
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a href="#" class="btn btn-dark btn-lg">
+                        <i class="fab fa-apple me-2"></i> App Store
+                    </a>
+                    <a href="#" class="btn btn-dark btn-lg">
+                        <i class="fab fa-google-play me-2"></i> Google Play
+                    </a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <div class="d-flex">
+                            {% for i in "12345"|make_list %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% endfor %}
+                        </div>
+                        <p class="mb-0 mt-1"><strong>4.8</strong> out of 5 stars</p>
+                    </div>
+                    <p class="mb-0 text-muted">Based on 1,000+ reviews</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0 text-center">
+                <img src="/static/images/mobile-app.png" alt="Foodie Mobile App" class="img-fluid" style="max-height: 500px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-3">Join Our Newsletter</h2>
+                <p class="lead mb-4">Get weekly recipe updates, cooking tips, and exclusive offers.</p>
+                <form class="row g-3 justify-content-center">
+                    <div class="col-md-8">
+                        <input type="email" class="form-control form-control-lg" placeholder="Your email address">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-light btn-lg w-100">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 
